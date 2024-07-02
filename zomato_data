@@ -1,20 +1,26 @@
-getFoodByID(fid : string)
-   {
-      return this.getAllFoods().find( food => food.id.toString()===fid);
-   }
-
-
-
-        food!:Food| undefined;
-  constructor(private api: FoodService, activateRoute: ActivatedRoute)
-    {
-          activateRoute.params.subscribe((params)=>{
-            if(params.id)
-               this.food= api.getFoodByID(params.id)
-
-          });
-}
-
-    ngOnInit(): void {
-      
-    }
+<div class="container" *ngIf="food">
+    <img [src]="food.imageUrl" [alt]="food.name">
+    <div class="details">
+        <div class="header">
+            <span class="name">{{ food.name }}</span>
+            <span class="favourite {{ food.favourite ? '' : 'not' }}">
+                ♥
+            </span>
+        </div>
+        <div class="origins" *ngIf="food.origins">
+            <span *ngFor="let origin of food.origins">
+                {{ origin }}
+            </span>
+        </div>
+        <div class="tags" *ngIf="food.tags">
+            <a *ngFor="let tag of food.tags" [routerLink]="['/tag', tag]">{{ tag }}</a>
+        </div>
+        <div class="cook-time" *ngIf="food.cookTime">
+            <span>Time to cook about <strong>{{ food.cookTime }}</strong> Minutes</span>
+        </div>
+        <div class="price" *ngIf="food.price">
+            <span>{{ food.price | currency:'INR' }}</span>
+        </div>
+        <button (click)="addToCart()">Add to Cart</button>
+    </div>
+</div>
