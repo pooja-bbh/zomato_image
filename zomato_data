@@ -1,26 +1,100 @@
-<div class="container" *ngIf="food">
-    <img [src]="food.imageUrl" [alt]="food.name">
-    <div class="details">
-        <div class="header">
-            <span class="name">{{ food.name }}</span>
-            <span class="favourite {{ food.favourite ? '' : 'not' }}">
-                ♥
-            </span>
-        </div>
-        <div class="origins" *ngIf="food.origins">
-            <span *ngFor="let origin of food.origins">
-                {{ origin }}
-            </span>
-        </div>
-        <div class="tags" *ngIf="food.tags">
-            <a *ngFor="let tag of food.tags" [routerLink]="['/tag', tag]">{{ tag }}</a>
-        </div>
-        <div class="cook-time" *ngIf="food.cookTime">
-            <span>Time to cook about <strong>{{ food.cookTime }}</strong> Minutes</span>
-        </div>
-        <div class="price" *ngIf="food.price">
-            <span>{{ food.price | currency:'INR' }}</span>
-        </div>
-        <button (click)="addToCart()">Add to Cart</button>
-    </div>
-</div>
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 3rem;
+}
+.container >*{
+    min-width: 20rem;
+    max-width: 32rem;
+}
+img{
+    border-radius: 3rem;
+    flex: 1 0;
+    object-fit: cover;
+    height: 26rem;
+    margin: 1rem;
+}
+.details{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0;
+    border-radius: 3rem;
+    padding: 2rem;
+    color: black;
+    margin-left: 1rem;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+.name{
+    font-size: 2rem;
+    font-weight:bolder;
+}
+.favourite{
+    color: #e72929;
+    font-size: 2.5rem;
+}
+.favourite.not{
+    color: gray;
+}
+.origins{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+.origins span{
+    padding: .5rem;
+    font-size: 1.2rem;
+    margin: .5rem .5rem .5rem 0;
+    border-radius: 2rem;
+    background-color: gray;
+}
+.tags{
+    flex-wrap: wrap;
+    display: flex;
+}
+.tags a{
+    padding: 0.3rem 1rem;
+    margin: 0.2rem 0.15rem;
+    border-radius: 10rem;
+    background-color: rgb(134, 131, 131);
+    font-weight: bold;
+    color: red  ;
+}
+.cook-time{
+    margin: 1rem;
+
+}
+.cook-time span{
+    padding: .6rem 2rem .6rem 0;
+    border-radius: 10rem;
+    font-size: 1.3rem;
+
+}
+.price{
+    font-size: 1.8rem;
+    margin: 1rem 1rem 1rem 0;
+    color: green;
+}
+
+.price::before{
+    content: "Price: ";
+    color: gray;
+}
+button{
+    color: white;
+    background-color: red;
+    border: none;
+    font-size: 1.2rem;
+    padding:  1rem;
+    border-radius: 10rem;
+    outline: none;
+}
+button:hover{
+    opacity: .9;
+    cursor: pointer;
+}
