@@ -1,3 +1,20 @@
-getSingleTag(tag: string) : Food[]{
-      return tag=="All" ? this.getAllFoods()  : this.getAllFoods().filter( food => food.tags?.includes(tag) );
+getFoodByID(fid : string)
+   {
+      return this.getAllFoods().find( food => food.id.toString()===fid);
    }
+
+
+
+        food!:Food| undefined;
+  constructor(private api: FoodService, activateRoute: ActivatedRoute)
+    {
+          activateRoute.params.subscribe((params)=>{
+            if(params.id)
+               this.food= api.getFoodByID(params.id)
+
+          });
+}
+
+    ngOnInit(): void {
+      
+    }
