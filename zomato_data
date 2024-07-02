@@ -1,4 +1,4 @@
- private cart:Cart =new Cart();
+  private cart:Cart =new Cart();
 
       private cartSub: BehaviorSubject<Cart> = new BehaviorSubject(this.cart);
    
@@ -13,11 +13,13 @@
                 return;
 
              this.cart.items.push(new CartItem(food));
+             this.setCartLocalStorage()
       }
 
        removeFromCart(fid :number):void{
             
             this.cart.items= this.cart.items.filter( item => item.food.id != fid);
+            this.setCartLocalStorage()
        }
 
         changeQuantity(fid: number, quantity:number){
@@ -29,11 +31,12 @@
 
               cartItem.quantity= quantity;
               cartItem.price  =   quantity   *  cartItem.food.price;
-
+              this.setCartLocalStorage()
         }
 
         clearCart(){
              this.cart= new Cart(); 
+             this.setCartLocalStorage()
         }
 
        //getting cart observable
@@ -42,3 +45,27 @@
               return this.cartSub.asObservable();
 
         }
+
+         //setting/creating local storage
+          private setCartLocalStorage():void
+          {
+               this.cart.totalPrice = this.cart.items.reduce((prevSum, currentItem) =>
+                  prevSum + currentItem.price, 0 );
+
+               this.cart.totalCount = this.cart.items.reduce((prevSum, currentItem) =>
+                prevSum + currentItem.quantity, 0 );
+
+                    
+                  const cartJson    =    JSON.stringify(this.cart);
+               localStorage.setItem('Cart'  ,   cartJson  );
+
+              this.cartSub.next(this.cart);
+       
+          }
+
+
+          private getCartLocalStorage():Cart
+          {
+               const cartJson =  localStorage.getItem('Cart');
+                return cartJson?JSON.parse(cartJson): new Cart();
+              }
