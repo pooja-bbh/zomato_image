@@ -1,10 +1,49 @@
- cartQuantity=0;
-       
-       constructor(carSer : CartService){
-                carSer.getCartObservable().subscribe((newCart)=>{
-                       this.cartQuantity = newCart.totalCount
-                })
+ @Input()
+       visible= false;
 
-       }
+       @Input()
+       notFoundMsg ="Nothing Found";
 
- <a routerLink="/cart-page">Cart <span *ngIf="cartQuantity">{{ cartQuantity}}</span> </a>
+       @Input()
+       resetLinkText ="Reset"
+    
+       @Input()
+       resetLinkTRoute ="/"
+
+
+
+<div *ngIf="visible">
+    {{notFoundMsg}}
+    <a [routerLink]="resetLinkTRoute">{{resetLinkText}}</a>
+</div>
+
+
+
+
+div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 2.5rem;
+    font-weight: 200;
+    height: 25vh;
+}
+div a{
+    font-size: 1rem;
+    background-color: #e72929;
+    color: white;
+    border-radius: 10rem;
+    padding: .7rem 1rem;
+    margin: 1rem;
+    opacity: .8;
+}
+div a:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+
+
+<app-not-found [visible]="!cart || !cart.items.length" notFoundMsg="Cart Page is Empty!"></app-not-found>
+<div *ngIf="cart && cart.items.length>0" class="container">
